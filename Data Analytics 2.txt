@@ -1,0 +1,87 @@
+// # Assignment 5
+
+// ### Data Analytics 2
+
+// 1. Implement logistic regression using Python/R to perform classification on `Social_Network_Ads.csv` dataset.
+// 2. Compute Confusion matrix to find TP, FP, TN, FN, Accuracy, Error rate, Precision, Recall on the given dataset
+
+# Experiment 5
+
+# 1. Import required libraries
+import pandas as pd
+import numpy as np
+
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import accuracy_score, precision_score, recall_score
+
+# 2. Load dataset
+df = pd.read_csv("Social_Network_Ads.csv")
+
+# 3. Display dataset
+print("Social Network Ads Dataset:")
+print(df.head())
+
+# 4. Check missing values
+print("\nMissing Values:")
+print(df.isnull().sum())
+
+# 5. Dataset information
+print("\nDataset Info:")
+print(df.info())
+
+# 6. Statistical summary
+print("\nStatistical Summary:")
+print(df.describe())
+
+# 7. Select features and target variable
+X = df[['Age', 'EstimatedSalary']]
+y = df['Purchased']
+
+# 8. Split dataset into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+
+# 9. Feature scaling
+sc = StandardScaler()
+
+X_train = sc.fit_transform(X_train)
+X_test = sc.transform(X_test)
+
+# 10. Create Logistic Regression model
+model = LogisticRegression()
+
+# 11. Train model
+model.fit(X_train, y_train)
+
+# 12. Make predictions
+y_pred = model.predict(X_test)
+
+print("\nPredicted Values:")
+print(y_pred)
+
+# 13. Confusion matrix
+cm = confusion_matrix(y_test, y_pred)
+
+print("\nConfusion Matrix:")
+print(cm)
+
+print("True Negatives:", cm[0][0])
+print("False Positives:", cm[0][1])
+print("False Negatives:", cm[1][0])
+print("True Positives:", cm[1][1])
+
+# 14. Performance metrics
+accuracy = accuracy_score(y_test, y_pred)
+precision = precision_score(y_test, y_pred)
+recall = recall_score(y_test, y_pred)
+error_rate = 1 - accuracy
+
+print("\nModel Performance:")
+print("Accuracy:", accuracy)
+print("Error Rate:", error_rate)
+print("Precision:", precision)
+print("Recall:", recall)

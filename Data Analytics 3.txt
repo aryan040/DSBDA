@@ -1,0 +1,80 @@
+// # Assignment 6
+
+// ## Data Analytics III
+
+// 1. Implement Simple Naïve Bayes classification algorithm using Python/R on iris.csv dataset.
+// 2. Compute Confusion matrix to find TP, FP, TN, FN, Accuracy, Error rate, Precision, Recall on the given dataset. Provide the codes with outputs and explain everything that you do in this step.
+
+# Experiment 6
+
+# 1. Import required libraries
+import pandas as pd
+
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import GaussianNB
+from sklearn.metrics import confusion_matrix, classification_report
+from sklearn.metrics import accuracy_score, precision_score, recall_score
+
+# 2. Load dataset
+df = pd.read_csv("iris.csv")
+
+# 3. Display dataset
+print("Iris Dataset:")
+print(df.head())
+
+# 4. Check missing values
+print("\nMissing Values:")
+print(df.isnull().sum())
+
+# 5. Dataset information
+print("\nDataset Info:")
+print(df.info())
+
+# 6. Statistical summary
+print("\nStatistical Summary:")
+print(df.describe())
+
+# 7. Separate features and target
+X = df.iloc[:, :-1]   # Feature columns
+y = df.iloc[:, -1]    # Target column
+
+# 8. Split dataset into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.3, random_state=42
+)
+
+# 9. Create Gaussian Naive Bayes model
+model = GaussianNB()
+
+# 10. Train model
+model.fit(X_train, y_train)
+
+# 11. Make predictions
+y_pred = model.predict(X_test)
+
+print("\nPredicted Values:")
+print(y_pred)
+
+# 12. Confusion matrix
+cm = confusion_matrix(y_test, y_pred)
+
+print("\nConfusion Matrix:")
+print(cm)
+
+# 13. Performance metrics
+accuracy = accuracy_score(y_test, y_pred)
+
+# For multiclass classification
+precision = precision_score(y_test, y_pred, average='weighted')
+recall = recall_score(y_test, y_pred, average='weighted')
+error_rate = 1 - accuracy
+
+print("\nModel Performance:")
+print("Accuracy:", accuracy)
+print("Error Rate:", error_rate)
+print("Precision:", precision)
+print("Recall:", recall)
+
+# 14. Classification report
+print("\nClassification Report:")
+print(classification_report(y_test, y_pred))

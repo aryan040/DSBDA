@@ -1,0 +1,69 @@
+//15
+// 4. Use the following covid_vaccine_statewise.csv dataset and perform following analytics on the
+// given dataset
+// https://www.kaggle.com/sudalairajkumar/covid19-in-india?select=covid_vaccine_statewise.csv
+// a. Describe the dataset
+// b. Number of persons state wise vaccinated for first dose in India
+// c. Number of persons state wise vaccinated for second dose in India
+// d. Number of Males vaccinated
+// d. Number of females vaccinated
+
+
+import pandas as pd
+import numpy as np
+
+
+
+df = pd.read_csv("D:/TE/A37/dSBDA/mini_Project/mini project 2/covid_vaccine_statewise.csv")
+df
+
+
+df.shape        
+df.columns    
+df.info() 
+
+
+df['Male(Individuals Vaccinated)'].head(20)
+
+
+
+df['Male(Individuals Vaccinated)'].dropna()
+
+
+df[['Male(Individuals Vaccinated)', 'Female(Individuals Vaccinated)']].describe()
+
+
+
+first_dose = df.groupby('State')['First Dose Administered'].max()
+
+print("State-wise First Dose Vaccination:\n")
+print(first_dose)
+
+
+
+second_dose = df.groupby('State')['Second Dose Administered'].max()
+
+print("State-wise Second Dose Vaccination:\n")
+print(second_dose)
+
+
+
+total_males = df['Male(Individuals Vaccinated)'].sum()
+
+print("Total Males Vaccinated:", total_males)
+
+
+
+total_females = df['Female(Individuals Vaccinated)'].sum()
+
+print("Total Females Vaccinated:", total_females)
+
+
+
+first_dose.sort_values(ascending=False).head(10).plot(kind='bar')
+
+plt.title("Top 10 States by First Dose Vaccination")
+plt.xlabel("State")
+plt.ylabel("Number of People Vaccinated (First Dose)")
+plt.show()
+

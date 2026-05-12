@@ -1,0 +1,91 @@
+// o. Group A : Data Science
+// 1. Data Wrangling, I
+// Perform the following operations using Python on any open source dataset (e.g., data.csv)
+// 1. Import all the required Python Libraries.
+// 2. Locate an open source data from the web (e.g., https://www.kaggle.com). Provide a clear
+//  description of the data and its source (i.e., URL of the web site).
+// 3. Load the Dataset into pandas dataframe.
+// 4. Data Preprocessing: check for missing values in the data using pandas isnull(), describe()
+// function to get some initial statistics. Provide variable descriptions. Types of variables etc.
+// Check the dimensions of the data frame.
+// 5. Data Formatting and Data Normalization: Summarize the types of variables by checking
+// the data types (i.e., character, numeric, integer, factor, and logical) of the variables in the
+// data set. If variables are not in the correct data type, apply proper type conversions.
+// 6. Turn categorical variables into quantitative variables in Python.
+// In addition to the codes and outputs, explain every operation that you do in the above steps and
+// explain everything that you do to import/read/scrape the data set
+
+
+# Experiment 1 - Data Wrangling
+
+# 1. Import required libraries
+import pandas as pd
+import numpy as np
+
+# 2. Load dataset
+df = pd.read_csv("data.csv")
+
+# 3. Display dataset
+print("First 10 rows:")
+print(df.head(10))
+
+print("\nLast 10 rows:")
+print(df.tail(10))
+
+# 4. Dataset shape
+print("\nDataset Shape:")
+print(df.shape)
+
+# 5. Dataset information
+print("\nDataset Info:")
+print(df.info())
+
+# 6. Statistical summary
+print("\nStatistical Summary:")
+print(df.describe())
+
+# 7. Check missing values
+print("\nMissing Values:")
+print(df.isnull().sum())
+
+# 8. Check non-null values
+print("\nNon-Null Values:")
+print(df.notnull().sum())
+
+# 9. Check data types
+print("\nData Types:")
+print(df.dtypes)
+
+# 10. Handle missing values
+# Fill numerical missing values with mean
+df['bore'] = df['bore'].fillna(df['bore'].mean())
+df['stroke'] = df['stroke'].fillna(df['stroke'].mean())
+df['horsepower'] = df['horsepower'].fillna(df['horsepower'].mean())
+df['peak-rpm'] = df['peak-rpm'].fillna(df['peak-rpm'].mean())
+
+# Fill categorical missing values with mode
+df['horsepower-binned'] = df['horsepower-binned'].fillna(df['horsepower-binned'].mode()[0])
+
+# 11. Convert data types
+df['curb-weight'] = df['curb-weight'].astype(int)
+
+# 12. Normalize numerical columns using Min-Max normalization
+numerical_cols = ['horsepower', 'price', 'wheel-base', 'length', 'width', 'height']
+
+for col in numerical_cols:
+    df[col] = (df[col] - df[col].min()) / (df[col].max() - df[col].min())
+
+# 13. Encode categorical column
+df['aspiration'] = df['aspiration'].map({'std': 0, 'turbo': 1})
+
+# 14. Verify transformed dataset
+print("\nUpdated Data Types:")
+print(df.dtypes)
+
+print("\nFirst 10 rows after preprocessing:")
+print(df.head(10))
+
+# 15. Save cleaned dataset
+df.to_csv("cleaned_data.csv", index=False)
+
+print("\nData wrangling completed successfully!")

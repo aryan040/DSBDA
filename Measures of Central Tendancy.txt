@@ -1,0 +1,112 @@
+// # Assignment 3
+
+// ## Descriptive Statistics - Measures of Central Tendency and variability
+
+// Perform the following operations on any open source dataset (e.g., data.csv)
+// 1. Provide summary statistics (mean, median, minimum, maximum, standard deviation) for
+// a dataset (age, income etc.) with numeric variables grouped by one of the qualitative
+// (categorical) variable. For example, if your categorical variable is age groups and
+// quantitative variable is income, then provide summary statistics of income grouped by
+// the age groups. Create a list that contains a numeric value for each response to the
+// categorical variable.
+// 2. Write a Python program to display some basic statistical details like percentile, mean,
+// standard deviation etc. of the species of ‘Iris-setosa’, ‘Iris-versicolor’ and ‘Iris-
+// versicolor’ of iris.csv dataset.
+// Provide the codes with outputs and explain everything that you do in this step.
+
+
+
+# Experiment 3
+
+# 1. Import required libraries
+import pandas as pd
+import numpy as np
+
+# =========================================
+# PART A: Employee Dataset Analysis
+# =========================================
+
+# 2. Load Employee dataset
+employee_df = pd.read_csv("Employee.csv")
+
+# 3. Display dataset
+print("Employee Dataset:")
+print(employee_df.head())
+
+# 4. Check missing values
+print("\nMissing Values in Employee Dataset:")
+print(employee_df.isnull().sum())
+
+# 5. Dataset information
+print("\nEmployee Dataset Info:")
+print(employee_df.info())
+
+# 6. Group by Department and calculate salary statistics
+grouped = employee_df.groupby('Department')
+
+salary_summary = grouped['Salary'].agg(['mean', 'median', 'min', 'max', 'std'])
+
+print("\nSalary Statistics by Department:")
+print(salary_summary)
+
+# 7. Extract salary lists department-wise
+engg_salary = employee_df[employee_df['Department'] == 'Engineering']['Salary'].tolist()
+finance_salary = employee_df[employee_df['Department'] == 'Finance']['Salary'].tolist()
+hr_salary = employee_df[employee_df['Department'] == 'HR']['Salary'].tolist()
+marketing_salary = employee_df[employee_df['Department'] == 'Marketing']['Salary'].tolist()
+product_salary = employee_df[employee_df['Department'] == 'Product']['Salary'].tolist()
+sales_salary = employee_df[employee_df['Department'] == 'Sales']['Salary'].tolist()
+
+print("\nDepartment-wise Salary Lists:")
+print("Engineering:", engg_salary)
+print("Finance:", finance_salary)
+print("HR:", hr_salary)
+print("Marketing:", marketing_salary)
+print("Product:", product_salary)
+print("Sales:", sales_salary)
+
+# =========================================
+# PART B: Iris Dataset Analysis
+# =========================================
+
+# 8. Load Iris dataset
+iris_df = pd.read_csv("Iris.csv")
+
+# 9. Display dataset
+print("\nIris Dataset:")
+print(iris_df.head())
+
+# 10. Check missing values
+print("\nMissing Values in Iris Dataset:")
+print(iris_df.isnull().sum())
+
+# 11. Dataset information
+print("\nIris Dataset Info:")
+print(iris_df.info())
+
+# 12. Group by Species
+grouped = iris_df.groupby("Species")
+
+# 13. Mean values for each species
+mean_summary = grouped.mean(numeric_only=True)
+
+print("\nMean Values by Species:")
+print(mean_summary)
+
+# 14. Detailed statistical summary
+print("\nDetailed Statistics by Species:")
+print(grouped.describe())
+
+# 15. Extract SepalLengthCm values species-wise
+setosa = iris_df[iris_df["Species"] == "Iris-setosa"]["SepalLengthCm"].tolist()
+versicolor = iris_df[iris_df["Species"] == "Iris-versicolor"]["SepalLengthCm"].tolist()
+virginica = iris_df[iris_df["Species"] == "Iris-virginica"]["SepalLengthCm"].tolist()
+
+print("\nSepal Length Values by Species:")
+print("Iris-setosa:", setosa)
+print("Iris-versicolor:", versicolor)
+print("Iris-virginica:", virginica)
+
+# 16. Dataset shapes
+print("\nEmployee Dataset Shape:", employee_df.shape)
+print("Iris Dataset Shape:", iris_df.shape)	
